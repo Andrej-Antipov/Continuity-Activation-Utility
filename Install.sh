@@ -11,7 +11,7 @@ clear
 printf '\n\n*****   This program enables Continuity support for the Mac   ******\n'
 printf '*****   By installing Lilu.kext with plugins            ******\n'
 printf '*****   If you have installed the Bluetooth 4.0+ LE USB dongle    ******\n'
-printf '*****                        Version 1.4                          ******\n'
+printf '*****                        Version 1.41                         ******\n'
 
 sleep 0.5
 
