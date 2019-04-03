@@ -1,6 +1,12 @@
 #!/bin/sh
+clear
 
-clear && printf '\e[3J'
+osascript -e "tell application \"Terminal\" to set the font size of window 1 to 12"
+osascript -e "tell application \"Terminal\" to set background color of window 1 to {1028, 12850, 65535}"
+osascript -e "tell application \"Terminal\" to set normal text color of window 1 to {65535, 65535, 65535}"
+
+clear 
+
 
 printf '\n\n*****   This program enables Continuity support for the Mac   ******\n'
 printf '*****   By installing Lilu.kext with plugins            ******\n'
@@ -89,11 +95,16 @@ if [[ $legal = 0 ]]
 	then 
 		echo
 		echo "For this mac the patch is impossible or not required." 
-		echo "End of program. Exit"
+		
 		echo
 		echo
-		sleep 1
-		exit 1
+        read -p "Press any key to close this window " -n 1 -r
+
+        clear
+
+        osascript -e 'tell application "Terminal" to close first window' & exit
+		
+		exit 
 fi
  
 echo "Checking the status of system protection "
@@ -109,9 +120,14 @@ if [[ "$csrset" != "disabled" ]]
 		echo "    !!!    Run the terminal utility and execute"
 		echo "    !!!    csrutil disable command"
 		echo "    !!!    and after reboot, run this program again"
-		echo "    !!!    End of program. Exit"
-		printf '\n\n\n\n'
-		exit 1
+		echo "    !!!    End of program. Exit\n"
+
+		read -p "Press any key to close this window " -n 1 -r
+
+        clear
+
+        osascript -e 'tell application "Terminal" to close first window' & exit
+		exit 
 fi
 printf '\n'
 printf '    !!! System Integrity Protection Off - OK !!!\n\n'
@@ -226,8 +242,14 @@ if [[ ! $REPLY =~ ^[yY]$ ]]
 then
     
     printf '\n\nWise choice. The End of the program. Exit ... !\n'
-    sleep 2
    
+    
+
+        clear
+
+        osascript -e 'tell application "Terminal" to close first window' & exit
+		
+
     exit 1
 
 fi

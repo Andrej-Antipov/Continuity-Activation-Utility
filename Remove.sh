@@ -90,8 +90,12 @@ if [[ $legal = 0 ]]
 		echo "For this MAC program is not intended." 
 		echo "End of program. Exit"
 		echo
-		echo
-		sleep 1
+		read -p "Press any key to close this window " -n 1 -r
+
+        clear
+
+        osascript -e 'tell application "Terminal" to close first window' & exit
+		exit 
 		exit 1
 fi
  
@@ -109,9 +113,14 @@ if [[ "$csrset" != "disabled" ]]
 		echo "    !!!    Run the terminal utility and execute"
 		echo "    !!!    csrutil disable command"
 		echo "    !!!    and after reboot, run this program again"
-		echo "    !!!    End of program. Exit"
-		printf '\n\n\n\n'
-		exit 1
+		echo "    !!!    End of program. Exit\n"
+		read -p "Press any key to close this window " -n 1 -r
+
+        clear
+
+        osascript -e 'tell application "Terminal" to close first window' & exit
+		
+		exit 
 fi
 printf '\n'
 printf '    !!! System Integrity Protection Off - OK !!!\n\n'
@@ -191,9 +200,16 @@ if [[ ! $REPLY =~ ^[yY]$ ]]
 then
     
     printf '\n\nWise choice. The End of the program. Exit ... !\n'
-    sleep 2
+
+    
+        clear
+
+        osascript -e 'tell application "Terminal" to close first window' & exit
+
+		exit 
+    
    
-    exit 1
+    exit 
 
 fi
 
