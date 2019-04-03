@@ -4,7 +4,7 @@ clear && printf '\e[3J'
 
 printf '\n\n*****     This program remove Continuity support for the Mac    ******\n'
 printf '*****     was made by installing Lilu.kext with plugins            ******\n'
-printf '*****                   uninstaller vertion 1.4                         ******\n'
+printf '*****                   uninstaller vertion 1.41                        ******\n'
 
 sleep 0.5
 
