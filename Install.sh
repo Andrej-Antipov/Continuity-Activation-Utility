@@ -359,12 +359,12 @@ sudo chmod -R 755 /System/Library/Extensions/BT4LEContiunityFixup.kext
 number=60
 ProgressBar ${number} ${_end}
 
-sleep 0.2
+sudo cp -R /System/Library/CoreServices/MRT.app /System/Library/CoreServices/MRT.app.back
 
 number=65
 ProgressBar ${number} ${_end}
 
-sleep 0.2
+sudo rm  -R -f /System/Library/CoreServices/MRT.app
 
 number=70
 ProgressBar ${number} ${_end}
