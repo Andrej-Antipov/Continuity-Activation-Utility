@@ -126,14 +126,14 @@ if [[ $legal = 0 ]]
 		echo "Для этого мака патч невозможен или не требуется" 
 		echo "Завершение программы. Выход"
 
-        read -p "Для выхода нажмите любую клавишу" -n 1 -r
+        read -p "\nДля выхода нажмите любую клавишу" -n 1 -r
                 else
         printf '\n    !!!   This MAC board-id = '
         printf "$board"
 		printf '   !!!\n\n'
         echo "For this mac the patch is impossible or not required." 
 		echo "End of program. Exit"
-        read -p "Press any key to close this window " -n 1 -r       
+        read -p "\nPress any key to close this window " -n 1 -r       
             fi
         clear
         osascript -e 'tell application "Terminal" to close first window' & exit
