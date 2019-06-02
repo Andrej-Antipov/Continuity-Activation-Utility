@@ -1,38 +1,19 @@
 #!/bin/sh
 
-clear
+clear && printf '\e[3J' && printf '\e[8;38;80t'
 
 osascript -e "tell application \"Terminal\" to set the font size of window 1 to 12"
-osascript -e "tell application \"Terminal\" to set background color of window 1 to {1028, 12850, 65535}"
+osascript -e "tell application \"Terminal\" to set background color of window 1 to {3341, 25186, 40092}"
 osascript -e "tell application \"Terminal\" to set normal text color of window 1 to {65535, 65535, 65535}"
 
-clear
 
-loc=`locale | grep LANG | sed -e 's/.*LANG="\(.*\)_.*/\1/'`
-
-
-                if [ ! $loc = "ru" ]; then
-printf '\n\n*****     This program remove Continuity support for the Mac    ******\n'
-printf '*****     was made by installing Lilu.kext with plugins            ******\n'
-printf '*****                   uninstaller vertion 1.6                         ******\n'
-                    else
-printf '\n\n*****     Программное удаление поддержки Continuity для макинтош     ******\n'
+printf '\n\n*****      Программное удаление поддержки Continuity для макинтош      ******\n'
 printf '*****     C обновленным модулем Bluetooth до версии HCI 4.0+ c LE      ******\n'
 printf '*****     Которая сделана посредством установки Lilu.kext с плагинами  ******\n'
-printf '*****                          Версия 1.6                            ******\n'
-                fi
+printf '*****                          Версия 2.00b                            ******\n'
 
 sleep 0.5
 
- if [ ! $loc = "ru" ]; then
-printf '\n    !!!   Your system '
-printf "`sw_vers -productName`"
-printf ': '; printf "`sw_vers -productVersion`" 
-printf '('
-printf "`sw_vers -buildVersion`"
-printf ') '
-printf '  !!!\n'
-                else
 printf '\n    !!!   Ваша система '
 printf "`sw_vers -productName`"
 printf ': '; printf "`sw_vers -productVersion`" 
@@ -40,7 +21,6 @@ printf '('
 printf "`sw_vers -buildVersion`"
 printf ') '
 printf '  !!!\n'
-            fi
 
 
 board=`ioreg -lp IOService | grep board-id | awk -F"<" '{print $2}' | cut -c 2- | rev | cut -c 3- | rev`
@@ -54,16 +34,9 @@ scontinuity=`defaults read /System/Library/Frameworks/IOBluetooth.framework/Vers
 continuity=`echo ${scontinuity//[^0-1]/}`
 
 
-
-            if [ ! $loc = "ru" ]; then
-printf '\n    !!!   This MAC board-id - '
-printf "$board"
-printf '   !!!\n\n'
-                else
 printf '\n    !!!   board-id этого макинтоша = '
 printf "$board"
 printf '   !!!\n\n'
-            fi
 
 legal=0
 case "$board" in
@@ -118,72 +91,38 @@ esac
 
 if [[ $legal = 0 ]] 
 	then 
-            clear && printf '\e[3J'
-            if [ $loc = "ru" ]; then		
+		sleep 3
+		clear && printf '\e[3J'
 		printf '\n    !!!   board-id этого макинтоша = '
 		printf "$board"
 		printf '   !!!\n\n'
-		echo "Для этого мака патч невозможен или не требуется" 
+		echo "Для этого мака патч программа не предназначена" 
 		echo "Завершение программы. Выход"
-
-        read -p "\nДля выхода нажмите любую клавишу" -n 1 -r
-                else
-        printf '\n    !!!   This MAC board-id = '
-        printf "$board"
-		printf '   !!!\n\n'
-        echo "For this mac the patch is impossible or not required." 
-		echo "End of program. Exit"
-        read -p "\nPress any key to close this window " -n 1 -r       
-            fi
-        clear
-        osascript -e 'tell application "Terminal" to close first window' & exit
-		
-		exit 
+		echo
+		echo
+		sleep 1
+		osascript -e 'tell application "Terminal" to close first window' & exit
 fi
  
- if [ ! $loc = "ru" ]; then	
-echo "Checking the status of system protection "
-                else
 echo "Проверка состояния системной защиты... "
-            fi
 csrset=`csrutil status | awk -F"status: " '{print $2}' | rev | cut -c 2- | rev`
-
+csrset="disabled"
 if [[ "$csrset" != "disabled" ]]
 	 then 
 		clear && printf '\e[3J'
-            if [ ! $loc = "ru" ]; then
-        printf '\n    !!!   System Integrity Protection enabled     !!!\n\n'
-		echo "    !!!    Cannot continue installation"
-		echo "    !!!    If protection is enabled the uninstaller will not work."
-		echo "    !!!    To disable protection, boot into Recovery"
-        echo "    !!!    Or from installation media"
-		echo "    !!!    Run the terminal utility and execute"
-		echo "    !!!    csrutil disable command"
-		echo "    !!!    and after reboot, run this program again"
-		echo "    !!!    End of program. Exit"
-        read -p "Press any key to close this window " -n 1 -r
-		                else        
 		printf '\n    !!!   Защита целостности системы включена     !!!\n\n'
-		echo "    !!!    Продолжение установки невозможно"
-		echo "    !!!    Если защита включена удаление патча не сработает"
+		echo "    !!!    Продолжение удаления невозможно"
+		echo "    !!!    Если защита включена удаление не сработает"
 		echo "    !!!    Для отключения защиты загрузитесь в Recovery"
 		echo "    !!!    Запустите утилиту терминала и выполните"
 		echo "    !!!    команду csrutil disable"
 		echo "    !!!    и после перезагрузки запустите программу еще раз"
-		echo "    !!!    Завершение работы программы.Выход\n"
-		read -p "Для выхода нажмите любую клавишу" -n 1 -r
-            fi
-        clear
-        osascript -e 'tell application "Terminal" to close first window' & exit
+		echo "    !!!    Завершение работа программы.Выход"
+		printf '\n\n\n\n'
 		exit 1
 fi
 printf '\n'
-
-if [ ! $loc = "ru" ]; then
-printf '    !!! System Integrity Protection Off - OK !!!\n\n'
-                else
-printf '    !!! Защита целостности системы выключена - OK !!!\n\n'
-            fi
+printf '    !!! Защита целостности системы выключена\n\n'
 
 sleep 3
 printf '\e[3J'
@@ -193,30 +132,17 @@ kextset=0
 btframestat=0
 
 #printf '\nПроверяем необходимость установки поддержки Continuity\n'
-if [ ! $loc = "ru" ]; then
-printf '\nGet information about the system\n\n'
-printf 'Bluetooth framework whitelist status ' 
-                else           
 printf '\nПолучаем информацию о системе\n\n'
 printf 'Состояние разрешения сценария Bluetooth для '
-            fi
-printf "$board"' \n'
-            
-            
+printf "$board"
+printf ' \n'
+
 if [ $continuity == 1 ]
 	then
 		btframestat=1
-            if [ ! $loc = "ru" ]; then
-        printf '\n    !!!         Continuity support enabled         !!!\n'
-                else
-        printf '\n    !!!         Сценарий Continuity разрешен         !!!\n'
-            fi
+		printf '\n    !!!         Сценарий Continuity разрешен         !!!\n'
 	else
-            if [ ! $loc = "ru" ]; then
-        printf '\n    !!! Continuity support disabled !!!\n'
-                else
 		printf '\n    !!! Сценарий Continuity запрещен !!!\n'
-            fi
 fi
 
 
@@ -224,13 +150,7 @@ fi
 liluset=0
 arptset=0
 bt4leset=0
-
-if [ ! $loc = "ru" ]; then
-printf '\nCheck for installed kernel extensions in /System/Library/Extensions/ \n\n'
-                else
 printf '\nПроверка установленных расширений ядра в /System/Library/Extensions/ \n\n'
-            fi
-
 if [  -f "/System/Library/Extensions/Lilu.kext/Contents/Info.plist" ]; then liluset=1; fi
 
 #printf '\nВаш liluset = '
@@ -249,20 +169,11 @@ if [  -f "/System/Library/Extensions/BT4LEContiunityFixup.kext/Contents/Info.pli
 #printf "$bt4leset"
 #printf '\n\n'
 
-if [ $liluset == 1 ] || [ $arptset == 1 ] || [ $bt4leset == 1 ]; then kextset=1; fi
-if [[ $kextset = 0 ]]; then 
-        if [ ! $loc = "ru" ]; then
-    echo "    !!!   Kernel extensions to support Continuity not installed"; echo
-                else
-    echo "    !!!   Расширения для поддержки Continuity не установлены"; echo
-        fi
+if [ $liluset == 1 ] && [ $arptset == 1 ] && [ $bt4leset == 1 ]; then kextset=1; fi
+if [[ $kextset = 0 ]]; then echo "    !!!   Расширения для поддержки Continuity не установлены"; echo
 	else
-        if [ ! $loc = "ru" ]; then
-    echo "    !!!         Kernel extensions to support Continuity installed          !!! "; echo
-                else
-	echo "    !!!         Расширения уже установлены.          !!! "; echo
-
-        fi
+	echo "    !!!         Расширения  установлены.          !!! "
+	echo
 	
 fi
 
@@ -274,59 +185,41 @@ if [ $kextset == 0 ] && [ $btframestat == 0 ]
 		sleep 3
 		clear && printf '\e[3J'
 		
-        if [ ! $loc = "ru" ]; then
-        printf '\n\n\n\n !!!\n\n'
-        echo "You have NOT installed Continuity support"
-		echo "Continue the program does not make sense. Exit"
-        read -p "Press any key to close this window " -n 1 -r
-            else
-		printf '\n\n\n\n !!!\n\n'
+		printf '   !!!\n\n'
 		echo "У вас НЕ установлена поддержка Continuity"
 		echo "Продолжение не имеет смысла.Выходим"
-        read -p "Для выхода нажмите любую клавишу" -n 1 -r
-        fi
 		
-		clear
-        osascript -e 'tell application "Terminal" to close first window' & exit
-		exit 
+		sleep 1
+		osascript -e 'tell application "Terminal" to close first window' & exit
 fi
-            if [ ! $loc = "ru" ]; then        
-        echo "To continue, press the English letter Y"
-		echo "To end the program any other key"
-        printf '\n\n'
-        read -p "Would you like to continue? (y/N) " -n 1 -r
-                else
 		echo "Для продолжения нажмите англ. литеру Y"
 		echo "Для завершения любую другую клавишу"
-        printf '\n\n'
-        read -p "Желаете продолжить удаление? (y/N) " -n 1 -r
-            fi
-		
+		printf '\n\n'
+               
+
+read -p "Желаете продолжить удаление? (y/N) " -n 1 -r
 
 if [[ ! $REPLY =~ ^[yY]$ ]]
+
 then
-            if [ ! $loc = "ru" ]; then 
-    printf '\n\nWise choice. The End of the program. Exit ... !\n'
-                else   
+    
     printf '\n\nМудрый выбор. Завершение  программы. Выход ... !\n'
-            fi
-    sleep 3
-    clear
-        osascript -e 'tell application "Terminal" to close first window' & exit
-   exit 
+    sleep 2
+   
+    osascript -e 'tell application "Terminal" to close first window' & exit
+
 fi
 
 sleep 0.3
-            if [ ! $loc = "ru" ]; then
-printf '\n\n\n*****  You know exactly what you are doing!  *****\n\n'
-printf '\nEnter your password to continue\n\n'
-                else
+
 printf '\n\n\n*****  Вы точно знаете что делаете!  *****\n\n'
 printf '\nДля продолжения введите ваш пароль\n\n'
-            fi
+
 
 
 sudo printf '\n\n'
+#printf '\nи сценарий поддержки handoff\n\n'
+
 
 
 function ProgressBar {
@@ -338,11 +231,7 @@ let _left=40-$_done
 _fill=$(printf "%${_done}s")
 _empty=$(printf "%${_left}s")
 
-if [ ! $loc = "ru" ]; then
-printf "\rRunning: ${_fill// /.}${_empty// / } ${_progress}%%"
-                else
 printf "\rВыполняется: ${_fill// /.}${_empty// / } ${_progress}%%"
-            fi
 
 }
 
@@ -370,12 +259,8 @@ sudo rm -R -f /System/Library/Extensions/AirportBrcmFixup.kext
 number=50
 ProgressBar ${number} ${_end}
 
-if [ ! -f "/System/Library/CoreServices/MRT.app/Contents/Info.plist" ]; then
-        if [ -f "/System/Library/CoreServices/MRT.app.back/Contents/Info.plist" ]; then
-            sudo cp -R /System/Library/CoreServices/MRT.app.back /System/Library/CoreServices/MRT.app
-            sudo rm -R /System/Library/CoreServices/MRT.app.back
-        fi
-fi
+sleep 0.2
+#sudo rm -R -f /System/Library/Extensions/NightShiftUnlocker.kext
 
 number=75
 ProgressBar ${number} ${_end}
@@ -409,50 +294,34 @@ fi
 
 number=100
 ProgressBar ${number} ${_end}
-            if [ ! $loc = "ru" ]; then
-printf '\n\n.   !!!    The kernel extensions removed\n\n'
-                else
+
 printf '\n\n.   !!!    Расширения ядра удалены\n\n'
-            fi
 
 if [[ $btframestat == 1 ]]
 	then
-            if [ ! $loc = "ru" ]; then
-        echo "    !!!    Bluetooth whitelist patch for Continuity removed\n\n"
-                else
 		echo "    !!!    Патч сценария Bluetooth для Continuity отменен\n\n"
-            fi
 fi
 
 sleep 1
 
-            if [ ! $loc = "ru" ]; then
-printf '\nWe update the system cache.\n'
-printf '\nProcessing: \n'
-                else
+ 
+
 printf '\nОбновляем системный кэш.\n'
 printf '\nВыполняется: \n'
-            fi
 
 while :;do printf '.\n' ;sleep 7;done &
 trap "kill $!" EXIT 
 sudo touch /System/Library/Extensions 2>/dev/null
 sudo kextcache -u /  2>/dev/null
-sleep 10
 kill $!
 wait $! 2>/dev/null
 trap " " EXIT
 
 
- if [ ! $loc = "ru" ]; then
-printf '\n\nKernel kexts cache updated\n'
-sleep 1
-printf '\n\nTimeout for system setting\n\n'
-                else
 printf '\n\nСистемный кэш обновлен\n'
 sleep 1
+
 printf '\n\nТаймаут для системного урегулирования\n\n'
-            fi
 
 
 
@@ -467,19 +336,15 @@ sleep 0.1
 ProgressBar ${number} ${_end}
 done
 
-if [[ $btframestat == 1 ]]
+if [[ $btframestat == 0 ]]
 	then
 
-            if [ ! $loc = "ru" ]; then
-printf '\n\nupdate the system frameworks cache. It takes a few minutes\n'
-printf '\nProcessing: '
-                else
 printf '\n\nОбновляем кэш системных сценариев. Это занимает несколько минут\n'
-printf '\nВыполняется: '
-            fi
 sleep 1
 
 
+
+printf '\nВыполняется: '
 while :;do printf '.';sleep 3;done &
 trap "kill $!" EXIT 
  sudo update_dyld_shared_cache -debug -force -root / 2>/dev/null
@@ -487,19 +352,16 @@ kill $!
 wait $! 2>/dev/null
 trap " " EXIT
 
-if [ ! $loc = "ru" ]; then
-printf '\n\nSystem Frameworks Cache Updated\n\n'
-printf '\nAll operations completed\n'
-sleep 1
-printf '\nRequired timeout before rebooting the operating system\n'
-printf '\nPress CTRL + C to brake if you do not want to restart now\n\n'
-                else
 printf '\n\nКэш системных сценариев обновлен\n\n'
+
+
+
 printf '\nВсе операции завершены\n'
 sleep 1
+
 printf '\nНеобходимый таймаут перед перезагрузкой операционной системы\n'
+
 printf '\nНажмте CTRL + C для прерывания если не хотите перезагружать сейчас\n\n'
-            fi
 sleep 5
 
 
@@ -519,16 +381,11 @@ sleep 1
 
 fi
 
-
-            if [ ! $loc = "ru" ]; then
-printf '\n\nThe program is complete. Initiated reboot. It may takes a couple of minutes.\n\n'
-                else
 printf '\n\nПрограмма завершена. Инициирована перезагрузка. На HDD может занять пару минут.\n\n'
-            fi
 
 
 sudo reboot now
 
-exit 1
+osascript -e 'tell application "Terminal" to close first window' & exit
 
 
